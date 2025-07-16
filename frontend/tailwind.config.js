@@ -12,6 +12,9 @@ module.exports = {
       },
       colors: {
         'bggray': '#313131',
+        'forange': '#F45722',
+        'horange': '#F88E20',
+        'loggray': '#B4B4B4',
       },
     },
   },

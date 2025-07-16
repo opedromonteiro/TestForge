@@ -9,11 +9,11 @@ async function  findEquips() {
     return result
 }
 
-async function findEquips(id) {
+async function findEquipById(id) {
     const new_id = new ObjectId(id)
     const col = await GetCollection(collName)
     const result = await col.findOne({_id: new_id})
     return result
 }
 
-module.exports = {findEquips, findEquips}
+module.exports = {findEquips, findEquipById}
