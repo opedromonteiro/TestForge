@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import StartPage from './Paginas/Start';
-import EquipamentosPage from './Paginas/Equipamentos';
-import PerfilPage from './Paginas/Perfil';
-import SoftwarePage from './Paginas/Software';
-import DashboardPage from './Paginas/Dashboard';
+import StartPage from './pages/Start';
+import EquipamentosPage from './pages/Equipamentos';
+import PerfilPage from './pages/Perfil';
+import SoftwarePage from './pages/Software';
+import DashboardPage from './pages/Dashboard';
 import './index.css';
 
 export default function App() {

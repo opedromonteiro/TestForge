@@ -1,4 +1,4 @@
-import BasicLogin from "../Componentes/Login";
+import BasicLogin from "../components/Login";
 
 function App() {
   return (

@@ -1,4 +1,4 @@
-import NavBar from '../Componentes/NavBar';
+import NavBar from '../components/NavBar';
 
 function equipamento() {
   return (
