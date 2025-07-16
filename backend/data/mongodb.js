@@ -1,30 +1,29 @@
-const { MongoClient } = require("mongodb") ;
+require("dotenv").config();
+const { MongoClient } = require("mongodb");
 
-// Connection URL
-const url = "mongodb+srv://testforgersapp:password54321@testforge.6t1ja5f.mongodb.net/?retryWrites=true&w=majority&appName=TestForge";
+const url = process.env.MONGOURL;
+const defaultDbName = process.env.DB_NAME;
 
-
-// Database Name
-const defaultDbName = "TestForge";
-
-let client = undefined
-
+if (!url) {
+    throw new Error(" MONGOURL not set in .env");
+}
+if (!defaultDbName) {
+    throw new Error(" DB_NAME not set in .env");
+}
+let client;
 
 async function GetMongoClient() {
     if (!client) {
         try {
-            client = await MongoClient.connect(url);
+            client = new MongoClient(url);
+            await client.connect();
+            console.log(" MongoDB connected");
         } catch (err) {
-            console.error(err);
+            console.error(" MongoDB connection error:", err);
+            process.exit(1);
         }
     }
     return client;
-}
-
-async function CloseConnection() {
-    const client = await GetMongoClient()
-    console.log(client)
-    return await client.close();
 }
 
 async function GetCollection(collectionName) {
@@ -33,4 +32,12 @@ async function GetCollection(collectionName) {
     return db.collection(collectionName);
 }
 
-module.exports = {CloseConnection, GetCollection}
+async function CloseConnection() {
+    if (client) {
+        await client.close();
+        console.log(" MongoDB connection closed");
+        client = undefined;
+    }
+}
+
+module.exports = { GetCollection, CloseConnection };
