@@ -1,17 +1,32 @@
-import logo from './logo.svg';
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import StartPage from './Paginas/Start';
+import EquipamentosPage from './Paginas/Equipamentos';
+import PerfilPage from './Paginas/Perfil';
+import SoftwarePage from './Paginas/Software';
+import DashboardPage from './Paginas/Dashboard';
+import './index.css';
 
-
-function App() {
+export default function App() {
   return (
-    <div className="flex flex-row justify-center items-center bg-bggray">
-      <div className='bg-green-800 transition-all duration-300 hover:w-hover'>
-        nav
-      </div>
-      <div className='flex justify-center w-full'>
-        <img src="logo512.png" alt="logo" />
-      </div>
-    </div>
+    <Router>
+      <Routes>
+          <Route index element={<StartPage />} />
+          <Route path="/" element={<StartPage />} />
+          <Route path="equipamentos" element={<EquipamentosPage />} />
+          <Route path="perfil" element={<PerfilPage />} />
+          <Route path="software" element={<SoftwarePage />} />
+          <Route path="dashboard" element={<DashboardPage />} />
+        <Route path="*" element={<div>Página não encontrada</div>} />
+      </Routes>
+    </Router>
   );
-}
+};
 
-export default App;
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+  <React.StrictMode>
+    
+  </React.StrictMode>
+);
