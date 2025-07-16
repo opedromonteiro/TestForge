@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const { verifyToken } = require("./services/tokens");
 const { updateUserWithEquipment } = require("./services/users");

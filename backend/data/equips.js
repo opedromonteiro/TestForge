@@ -10,7 +10,7 @@ async function  findEquips() {
 }
 
 async function findEquipById(id) {
-    const new_id = new ObjectId(id)
+    const new_id = new ObjectId(String(id))
     const col = await GetCollection(collName)
     const result = await col.findOne({_id: new_id})
     return result
