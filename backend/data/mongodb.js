@@ -1,10 +1,11 @@
 const { MongoClient } = require("mongodb") ;
 
 // Connection URL
-const url = "mongodb://localhost:27017";
+const url = "mongodb+srv://testforgersapp:password54321@testforge.6t1ja5f.mongodb.net/?retryWrites=true&w=majority&appName=TestForge";
+
 
 // Database Name
-const defaultDbName = "teste";
+const defaultDbName = "TestForge";
 
 let client = undefined
 
