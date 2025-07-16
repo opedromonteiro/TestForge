@@ -15,5 +15,15 @@ async function findEquipById(id) {
     const result = await col.findOne({_id: new_id})
     return result
 }
+async function findEquipFilters(filters = {}) {
+    const col = await GetCollection(collName);
+    const query = {};
 
-module.exports = {findEquips, findEquipById}
+    if (filters.status) query.status = filters.status;
+    if (filters.OS) query.OS = filters.OS;
+    if (filters.tipo) query.tipo = filters.tipo;
+
+    return col.find(query).toArray();
+}
+
+module.exports = { findEquips, findEquipById, findEquipFilters };

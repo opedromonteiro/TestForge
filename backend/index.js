@@ -5,6 +5,7 @@ const app = express();
 const port = 3030;
 app.use(express.json());
 
+// 
 app.post("/api/auth/login", async (req, res) => {
     const { username, password } = req.body;
 
@@ -19,8 +20,8 @@ app.post("/api/auth/login", async (req, res) => {
     }
 });
 
+ //get all equips 
 app.get("/api/equips", async (req, res) => {
-
     const token = req.headers.authorization
 
     if ( verifyToken(token) === false) {
@@ -29,6 +30,38 @@ app.get("/api/equips", async (req, res) => {
     const equips = await getEquips();
     return res.status(200).json(equips);
 });
+ //get equips by id
+app.get("/api/equips/:id", async (req, res) => {
+    const token = req.headers.authorization;
+
+    if (verifyToken(token) === false) {
+        return res.status(403).json({ message: "Invalid token." });
+    }
+
+    const equip = await findEquipById(req.params.id);
+    if (!equip) return res.status(404).json({ message: "Not found" });
+    return res.status(200).json(equip);
+});
+ //get equips filtered
+app.get("/api/equips/filters", async (req, res) => {
+    const token = req.headers.authorization;
+
+    if (verifyToken(token) === false) {
+        return res.status(403).json({ message: "Invalid token." });
+    }
+    // Grab filters from query string
+    const filters = {
+        status: req.query.status, // e.g. ?status=available
+        OS: req.query.OS,         // e.g. ?OS=Windows
+        tipo: req.query.tipo      // e.g. ?tipo=laptop
+    };
+
+    const filteredEquips = await findEquipFilters(filters);
+    return res.status(200).json(filteredEquips);
+});
+
+
+
 
 app.patch("/api/users/", async (req, res) => { //add equips
     const body = req.body
