@@ -3,20 +3,31 @@ const { verifyToken } = require("./services/tokens");
 const { updateUserWithEquipment } = require("./services/users");
 const app = express();
 const port = 3030;
+const bcrypt = require("bcrypt");
+
 app.use(express.json());
 
-// 
 app.post("/api/auth/login", async (req, res) => {
     const { username, password } = req.body;
+    try {
+        const user = await GetUser(username);
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) {
+            return res.status(403).json({ message: "Invalid username or password" });
+        }
+        const token = await createToken(user);
 
-    const user = await GetUser(username)
+        if (!token) {
+            return res.status(500).json({ message: "Failed to create token" });
+        }
 
-    const token = await createToken(user)
-
-    if (token === null) {
-        return res.status(403).json({ message: "ERRO" });
-    } else if (user.password === password) {
-        return res.status(200).json({ token: token });
+        return res.status(200).json({ token });
+    } catch (err) {
+        console.error("Login error:", err);
+        return res.status(500).json({ message: "Server error" });
     }
 });
 
