@@ -1,8 +1,9 @@
 const express = require("express");
 const { verifyToken } = require("./services/tokens");
+const { updateUserWithEquipment } = require("./services/users");
 const app = express();
 const port = 3030;
-app.use(expressjson());
+app.use(express.json());
 
 app.post("/api/auth/login", async (req, res) => {
     const { username, password } = req.body;
