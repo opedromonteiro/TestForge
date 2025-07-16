@@ -31,6 +31,14 @@ async function updateUserWithEquipment(userId, equips) {
     );
     return result.modifiedCount > 0;
 }
+async function removeUserEquipment(userId, equipId) {
+    const col = await GetCollection(collName);
+    const newUserId = new ObjectId(String(userId));
+    const result = await col.updateOne(
+        { _id: newUserId },
+        { $pull: { equips: equipId } }
+    );
+    return result.modifiedCount > 0;
+}
 
-
-module.exports = {insertUser, findUser, updateUserWithEquipment, findUserById};
+module.exports = {insertUser, findUser, updateUserWithEquipment, findUserById, removeUserEquipment};
