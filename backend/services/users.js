@@ -1,6 +1,6 @@
 const { findToken } = require("../data/tokens");
 const { findUserById, updateUserWithEquipment } = require("../data/users");
-const { addHistoryEntry } = require("../data/history");
+const { addLogsEntry } = require("../data/reqLog");
 
 
 async function updateUserWithEquipment(equips, token) {
@@ -10,9 +10,9 @@ async function updateUserWithEquipment(equips, token) {
     const result = await updateUserWithEquipment(tokenObj.uid, equips);
 
     if (result) {
-        await addHistoryEntry(tokenObj.uid, equips.equip_id, equips.timestamp);
+        await addLogsEntry(tokenObj.uid, equips.equip_id, equips.timestamp);
     }
-    
+
     return result;
 }
 

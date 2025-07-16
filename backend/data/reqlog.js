@@ -1,6 +1,6 @@
 const { GetCollection } = require("./mongodb");
 
-const collName = "ReqLog";
+const collName = "reqlog";
 
 async function addLogsEntry(userId, equipId, timestamp) {
     const col = await GetCollection(collName);
