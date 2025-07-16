@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaUser, FaCogs, FaDesktop, FaTachometerAlt } from 'react-icons/fa';
-import './NavBar.css'; // Vamos colocar o background aqui
+
 
 const items = [
 { icon: <FaUser />, label: 'Perfil' },
@@ -11,7 +11,7 @@ const items = [
 ];
 
 export default function NavBar() {
-const [activeIndex, setActiveIndex] = useState<number | null>(null);
+const [activeIndex, setActiveIndex] = useState(null);
 
 return (
 <nav className="fixed top-0 left-0 h-full w-20 bg-fire flex flex-col items-center py-6 space-y-10 shadow-lg text-white">
