@@ -4,6 +4,11 @@ const { updateUserWithEquipment } = require("./services/users");
 const app = express();
 const port = 3030;
 const bcrypt = require("bcrypt");
+const { removeToken } = require("./services/tokens");
+const { findEquipById, findEquipFilters } = require("./data/equips");
+const { getEquips } = require("./services/equips");
+const { findUser } = require("./data/users");
+const { createToken } = require("./services/tokens");
 
 app.use(express.json());
 
@@ -73,37 +78,32 @@ app.get("/api/equips/filters", async (req, res) => {
 
 
 
-
 app.patch("/api/users/", async (req, res) => { //add equips
-    const body = req.body
-    const token = req.headers.authorization
-    
-    if ( verifyToken(token) === false) {
-        return res.status(403).json({message: `Token not found`})
+    const body = req.body;
+    const token = req.headers.authorization;
+
+    if (!token || !(await verifyToken(token))) {
+        return res.status(403).json({ message: `Token not found` });
+    }
+
+    if (!body.equipId) {
+        return res.status(400).json({ message: "Missing equipId in request body." });
     }
 
     try {
-        // ATUALIZAR O UTILIZADOR COM O ID DO EQUIPAMENTO
-        // ATUALIZAR O HISTORICO COM O ID DO USER E DO EQUIPAMENTO
-        const equips= {
+        const equips = {
             equip_id: body.equipId,
             timestamp: new Date()
-        }
-        
-        // FAZER UMA FUNC NOS SERVICOS QUE RECEBE O ID DO EQUIPAMENTO E O TOKEN
+        };
 
-        const result = await updateUserWithEquipment(equips, token); 
-        // VAI BUSCAR O USER // BUSCAR O USER PARA ADICIONAR E NÂO ALTERAR TOTALMENTE O USER  
-        // ATUALIZA O USER 
-        // CRIAR HISTORICO
-        // RETORNA BOOL
+        const result = await updateUserWithEquipment(equips, token);
 
-        if (result === false) { // COMPARA SE RESULTADO È FALSE
-            return res.status(400).json({ message: result })
+        if (result === false) {
+            return res.status(400).json({ message: "Failed to update user with equipment." });
         }
 
-        return res.status(200).json({ // CASO O RESULTADO FOR TRUE
-                message: "  adicionado ao utilizador.",
+        return res.status(200).json({
+            message: "Equipamento adicionado ao utilizador.",
         });
     } catch (err) {
         return res.status(500).json({ message: "Erro ao atualizar utilizador." });
