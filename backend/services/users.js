@@ -1,5 +1,5 @@
 const { findToken } = require("../data/tokens");
-const { findUserById, updateUserWithEquipment } = require("../data/users");
+const { findUserById,findUser, updateUserWithEquipment } = require("../data/users");
 const { addLogsEntry } = require("../data/reqLog");
 
 
@@ -16,4 +16,8 @@ async function assignUserWithEquipment(equips, token) {
     return result;
 }
 
-module.exports = { assignUserWithEquipment};
+async function getUser(userName) {
+    return await findUser(userName)
+}
+
+module.exports = { assignUserWithEquipment, getUser};

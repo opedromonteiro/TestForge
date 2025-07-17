@@ -7,8 +7,9 @@ const port = 3030;
 const bcrypt = require("bcrypt");
 const { removeToken } = require("./services/tokens");
 const { getEquips, getEquipById, getEquipFilters } = require("./services/equips");
-const { findUser } = require("./data/users");
+const { getUser } = require("./services/users");
 const { createToken } = require("./services/tokens");
+
 
 app.use(express.json());
 
@@ -46,6 +47,7 @@ app.get("/api/equips", async (req, res) => {
     const equips = await getEquips();
     return res.status(200).json(equips);
 });
+
  //get equips by id
 app.get("/api/equips/:id", async (req, res) => {
     const token = req.headers.authorization;
