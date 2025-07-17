@@ -1,55 +1,31 @@
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { IoStatsChartSharp } from "react-icons/io5";
- import { PiComputerTower } from "react-icons/pi";
- import { MdComputer } from "react-icons/md";
- import { FaUserAlt } from "react-icons/fa"; 
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { FaUser, FaLaptop, FaCog, FaChartBar } from "react-icons/fa";
 
-const items = [
-{ icon: <FaUserAlt />, label: 'Perfil' },
-{ icon: <MdComputer/>, label: 'Equipamentos' },
-{ icon: <PiComputerTower/>, label: 'Software' },
-{ icon: <IoStatsChartSharp />, label: 'Dashboard' },
-];
-
-export default function NavBar() {
-const [activeIndex, setActiveIndex] = useState(null);
-
-return (
-<nav className="fixed top-0 left-0 h-full w-20 bg-fire flex flex-col items-center py-6 space-y-10 shadow-lg text-white">
-  {items.map((item, index) => (
-    <NavItem
-      key={index}
-      icon={item.icon}
-      label={item.label}
-      isActive={activeIndex === index}
-      onClick={() => setActiveIndex(activeIndex === index ? null : index)}
-    />
-  ))}
-</nav>
+const SidebarIcon = ({ icon, label, onClick }) => (
+  <div
+    className="p-4 hover:bg-orange-500 transition-colors cursor-pointer relative group"
+    onClick={onClick}
+  >
+    {icon}
+    <span className="absolute left-14 top-1/2 transform -translate-y-1/2 bg-black text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">
+      {label}
+    </span>
+  </div>
 );
-}
 
-function NavItem({ icon, label, isActive, onClick }) {
+const NavBar = () => {
+  const navigate = useNavigate();
   return (
-    <div
-      className="relative m-2 flex flex-col items-center cursor-pointer hover:text-orange-800 transition-all"
-      onClick={onClick}
-    >
-      {icon}
-      <AnimatePresence>
-        {isActive && (
-          <motion.div
-            initial={{ opacity: 0, x: 10 }}
-            animate={{ opacity: 1, x: 5 }}
-            exit={{ opacity: 0, x: 10 }}
-            transition={{ duration: 0.2 }}
-            className="absolute left-full ml-2 bg-black bg-opacity-70 text-white text-sm px-2 py-1 rounded"
-          >
-            {label}
-          </motion.div>
-        )}
-      </AnimatePresence>
+    <div className="w-16 bg-gray-300 flex flex-col justify-between items-center py-4">
+      <div className="space-y-4">
+        <SidebarIcon icon={<FaLaptop size={20} />} label="Equipamentos" onClick={() => navigate("/pages/Equipamentos")} />
+        <SidebarIcon icon={<FaCog size={20} />} label="Software" onClick={() => navigate("/pages/Software")} />
+        <SidebarIcon icon={<FaChartBar size={20} />} label="Dashboard" onClick={() => navigate("/pages/Dashboard")} />
+      </div>
+      <SidebarIcon icon={<FaUser size={20} />} label="Perfil" onClick={() => navigate("/pages/Perfil")} />
     </div>
   );
-}
+};
+
+export default NavBar;
