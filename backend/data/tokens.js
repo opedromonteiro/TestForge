@@ -1,4 +1,4 @@
-const { ObjectId } = requite("mongodb");
+const { ObjectId } = require("mongodb");
 const { GetCollection } = require("./mongodb");
 
 const COLLECTION = "tokens";

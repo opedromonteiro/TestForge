@@ -1,11 +1,15 @@
-const { findEquips, findEquips } = require("../data/equips");
+const { findEquips, findEquipById } = require("../data/equips");
 
 async function getEquips() {
     return await findEquips()
 }
 
-async function getEquips(id) {
-    return await findEquips(id)
+async function getEquipById(id) {
+    return await findEquipById(id)
 }
 
-module.exports = { getEquips, getEquips }
+async function getEquipFilters(filters) {
+    return await findEquipFilters(filters = {})
+}
+
+module.exports = { getEquips, getEquipById, getEquipFilters }

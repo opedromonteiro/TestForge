@@ -6,8 +6,7 @@ const app = express();
 const port = 3030;
 const bcrypt = require("bcrypt");
 const { removeToken } = require("./services/tokens");
-const { findEquipById, findEquipFilters } = require("./data/equips");
-const { getEquips } = require("./services/equips");
+const { getEquips, getEquipById, getEquipFilters } = require("./services/equips");
 const { findUser } = require("./data/users");
 const { createToken } = require("./services/tokens");
 
@@ -55,7 +54,7 @@ app.get("/api/equips/:id", async (req, res) => {
         return res.status(403).json({ message: "Invalid token." });
     }
 
-    const equip = await findEquipById(req.params.id);
+    const equip = await getEquipById(req.params.id);
     if (!equip) return res.status(404).json({ message: "Not found" });
     return res.status(200).json(equip);
 });
@@ -73,7 +72,7 @@ app.get("/api/equips/filters", async (req, res) => {
         tipo: req.query.tipo      // e.g. ?tipo=laptop
     };
 
-    const filteredEquips = await findEquipFilters(filters);
+    const filteredEquips = await getEquipFilters(filters);
     return res.status(200).json(filteredEquips);
 });
 
@@ -113,10 +112,9 @@ app.patch("/api/users/", async (req, res) => { //add equips
 // remove equipment from user
 app.post("/api/users/return/:equip_id", async (req, res) => {
     const token = req.headers.authorization;
-    const decoded = verifyToken(token);
 
-    if (!decoded) {
-        return res.status(401).json({ message: "Invalid token." });
+    if (!token || !(await verifyToken(token))) {
+        return res.status(403).json({ message: `Token not found` });
     }
 
     try {
