@@ -1,4 +1,4 @@
-const { findEquips, findEquipById } = require("../data/equips");
+const { findEquips, findEquipById, findEquipFilters } = require("../data/equips");
 
 async function getEquips() {
     return await findEquips()
@@ -9,7 +9,7 @@ async function getEquipById(id) {
 }
 
 async function getEquipFilters(filters) {
-    return await findEquipFilters(filters = {})
+    return await findEquipFilters(filters)
 }
 
 module.exports = { getEquips, getEquipById, getEquipFilters }

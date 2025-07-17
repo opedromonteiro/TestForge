@@ -7,7 +7,7 @@ async function findUser(userName) {
     console.log("🔍 Searching for user:", userName);
 
     if (!userName || typeof userName !== "string") {
-        console.error("❌ Invalid username provided:", userName);
+        console.error(" Invalid username provided:", userName);
         return null;
     }
 
@@ -15,9 +15,9 @@ async function findUser(userName) {
     const result = await col.findOne({ username: userName });
 
     if (result) {
-        console.log("✅ User found:", result.username || result.email);
+        console.log(" User found:", result.username || result.email);
     } else {
-        console.warn("⚠️ No user found for username:", userName);
+        console.warn(" No user found for username:", userName);
     }
 
     return result;
@@ -31,32 +31,51 @@ async function findUserById(userId) {
 }
 
 async function updateUserWithEquipment(userId, equipId) {
-    const usersCol = await GetCollection(collName);      // "users" collection
-    const equipsCol = await GetCollection("equips");     // "equips" collection
+    const usersCol = await GetCollection("users");    // "users" collection
+    const equipsCol = await GetCollection("equips");  // "equips" collection
 
     const newUserId = new ObjectId(String(userId));
     const newEquipId = new ObjectId(String(equipId));
 
+    console.log("Adding equip:", newEquipId, "to user:", newUserId);
+
+    // Add equipment ID to user's equips array
     const userUpdateResult = await usersCol.updateOne(
         { _id: newUserId },
         { $push: { equips: newEquipId } }
+        // Or safer to avoid duplicates:
+        // { $addToSet: { equips: newEquipId } }
     );
 
-    if (userUpdateResult.modifiedCount === 0) {
-        throw new Error("Failed to add equipment to user");
+    console.log("User update result:", userUpdateResult);
+
+    if (userUpdateResult.matchedCount === 0) {
+        throw new Error(`User with ID ${userId} not found`);
     }
 
+    if (userUpdateResult.modifiedCount === 0) {
+        console.warn(`User ${userId} found but equips array was not modified (equipId may already exist).`);
+    }
+
+    // Update equipment status to "ocupado"
     const equipUpdateResult = await equipsCol.updateOne(
         { _id: newEquipId },
         { $set: { status: "ocupado" } }
     );
 
+    console.log("Equip update result:", equipUpdateResult);
+
+    if (equipUpdateResult.matchedCount === 0) {
+        throw new Error(`Equipment with ID ${equipId} not found`);
+    }
+
     if (equipUpdateResult.modifiedCount === 0) {
-        throw new Error("Failed to update equipment status");
+        console.warn(`Equipment ${equipId} found but status was already "ocupado".`);
     }
 
     return true;
 }
+
 
 async function removeUserEquipment(userId, equipId) {
     const col = await GetCollection(collName);

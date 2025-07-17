@@ -1,7 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const { verifyToken } = require("./services/tokens");
-const { updateUserWithEquipment } = require("./services/users");
+const { assignUserWithEquipment } = require("./services/users");
 const app = express();
 const port = 3030;
 const bcrypt = require("bcrypt");
@@ -48,6 +48,28 @@ app.get("/api/equips", async (req, res) => {
     return res.status(200).json(equips);
 });
 
+
+
+ //get equips filtered
+app.get("/api/equips/filters", async (req, res) => {
+    console.log("🌐 Full URL:", req.originalUrl);
+    console.log("🔑 Query params:", req.query);
+    const token = req.headers.authorization;
+        
+    if (!(await verifyToken(token))) {
+        return res.status(403).json({ message: "Invalid token." });
+    }
+    // Grab filters from query string
+const filters = {
+    status: req.query.status,
+    os: req.query.os || req.query.OS,
+    tipo: req.query.tipo,
+    marca: req.query.marca
+};
+    const filteredEquips = await getEquipFilters(filters);
+    return res.status(200).json(filteredEquips);
+});
+
  //get equips by id
 app.get("/api/equips/:id", async (req, res) => {
     const token = req.headers.authorization;
@@ -60,54 +82,34 @@ app.get("/api/equips/:id", async (req, res) => {
     if (!equip) return res.status(404).json({ message: "Not found" });
     return res.status(200).json(equip);
 });
- //get equips filtered
-app.get("/api/equips/filters", async (req, res) => {
-    const token = req.headers.authorization;
 
-    if (verifyToken(token) === false) {
-        return res.status(403).json({ message: "Invalid token." });
-    }
-    // Grab filters from query string
-    const filters = {
-        status: req.query.status,
-        OS: req.query.OS,
-        tipo: req.query.tipo
-    };
-
-    const filteredEquips = await getEquipFilters(filters);
-    return res.status(200).json(filteredEquips);
-});
-
-
-
-app.patch("/api/users/", async (req, res) => { //add equips
+app.patch("/api/users/", async (req, res) => { // add equips
     const body = req.body;
     const token = req.headers.authorization;
 
     if (!token || !(await verifyToken(token))) {
-        return res.status(403).json({ message: `Token not found` });
+        return res.status(403).json({ message: "Token not found" });
     }
 
-    if (!body.equipId) {
-        return res.status(400).json({ message: "Missing equipId in request body." });
+    const equipId = body.equip_id || body.equipId;
+    if (!equipId) {
+        console.error(" Missing equip_id. Body received:", body);
+        return res.status(400).json({ message: "Missing equip_id in request body." });
     }
 
     try {
-        const equips = {
-            equip_id: body.equipId,
-            timestamp: new Date()
-        };
+        // Call service with equipId directly (no need for extra object)
+        const result = await assignUserWithEquipment(equipId, token);
 
-        const result = await updateUserWithEquipment(equips, token);
-
-        if (result === false) {
+        if (!result) {
             return res.status(400).json({ message: "Failed to update user with equipment." });
         }
 
         return res.status(200).json({
-            message: "Equipamento adicionado ao utilizador.",
+            message: "Equipamento adicionado ao utilizador."
         });
     } catch (err) {
+        console.error(" assignUserWithEquipment error:", err);
         return res.status(500).json({ message: "Erro ao atualizar utilizador." });
     }
 });
