@@ -1,13 +1,15 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaUser, FaCogs, FaDesktop, FaTachometerAlt } from 'react-icons/fa';
-
+import { IoStatsChartSharp } from "react-icons/io5";
+ import { PiComputerTower } from "react-icons/pi";
+ import { MdComputer } from "react-icons/md";
+ import { FaUserAlt } from "react-icons/fa"; 
 
 const items = [
-{ icon: <FaUser />, label: 'Perfil' },
-{ icon: <FaCogs />, label: 'Equipamentos' },
-{ icon: <FaDesktop />, label: 'Software' },
-{ icon: <FaTachometerAlt />, label: 'Dashboard' },
+{ icon: <FaUserAlt />, label: 'Perfil' },
+{ icon: <MdComputer/>, label: 'Equipamentos' },
+{ icon: <PiComputerTower/>, label: 'Software' },
+{ icon: <IoStatsChartSharp />, label: 'Dashboard' },
 ];
 
 export default function NavBar() {
@@ -31,7 +33,7 @@ return (
 function NavItem({ icon, label, isActive, onClick }) {
   return (
     <div
-      className="relative flex flex-col items-center cursor-pointer hover:text-orange-400 transition-all"
+      className="relative m-2 flex flex-col items-center cursor-pointer hover:text-orange-800 transition-all"
       onClick={onClick}
     >
       {icon}
