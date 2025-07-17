@@ -16,7 +16,7 @@ app.use(express.json());
 app.post("/api/auth/login", async (req, res) => {
     const { username, password } = req.body;
     try {
-        const user = await GetUser(username);
+        const user = await getUser(username);
         if (!user) {
             return res.status(404).json({ message: "User not found" });
         }
@@ -41,8 +41,8 @@ app.post("/api/auth/login", async (req, res) => {
 app.get("/api/equips", async (req, res) => {
     const token = req.headers.authorization
 
-    if ( verifyToken(token) === false) {
-        return res.status(403).json({message:`Invalid token.`})
+    if (!(await verifyToken(token))) {
+        return res.status(403).json({ message: "Invalid token." });
     }
     const equips = await getEquips();
     return res.status(200).json(equips);

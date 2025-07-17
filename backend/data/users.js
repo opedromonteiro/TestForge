@@ -1,18 +1,26 @@
 const { ObjectId } = require("mongodb")
 const { GetCollection } =  require("./mongodb")
 
-const collName = "Users"
-
-async function insertUser(user) {
-    const col = await GetCollection(collName)
-    const result = await col.insertOne(user)
-    return result.insertedId
-}
+const collName = "users"
 
 async function findUser(userName) {
-    const col = await GetCollection(collName)
-    const result = await col.findOne({username : userName})
-    return result
+    console.log("🔍 Searching for user:", userName);
+
+    if (!userName || typeof userName !== "string") {
+        console.error("❌ Invalid username provided:", userName);
+        return null;
+    }
+
+    const col = await GetCollection(collName);
+    const result = await col.findOne({ username: userName });
+
+    if (result) {
+        console.log("✅ User found:", result.username || result.email);
+    } else {
+        console.warn("⚠️ No user found for username:", userName);
+    }
+
+    return result;
 }
 
 async function findUserById(userId) {
@@ -60,4 +68,4 @@ async function removeUserEquipment(userId, equipId) {
     return result.modifiedCount > 0;
 }
 
-module.exports = {insertUser, findUser, updateUserWithEquipment, findUserById, removeUserEquipment};
+module.exports = {findUser, updateUserWithEquipment, findUserById, removeUserEquipment};
