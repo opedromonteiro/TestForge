@@ -1,6 +1,7 @@
 const { findToken } = require("../data/tokens");
 const { findUserById,findUser, updateUserWithEquipment } = require("../data/users");
 const { addLogsEntry } = require("../data/reqLog");
+const { findEquipById } = require("../data/equips");
 
 
 async function assignUserWithEquipment(equipId, token) {
@@ -37,4 +38,17 @@ async function getUser(userName) {
     return await findUser(userName)
 }
 
-module.exports = { assignUserWithEquipment, getUser};
+async function getUserEquips(username) {
+    const user =  await findUser(username)
+    const userEquips = []
+    if(!user) {
+        return false
+    }
+    for(let i = 0 ; i < user.equips.length; i++){
+        const res = await findEquipById(user.equips[i])
+        userEquips(res)
+    }
+    return userEquips
+}
+
+module.exports = { assignUserWithEquipment, getUser, getUserEquips};

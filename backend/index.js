@@ -1,7 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const { verifyToken } = require("./services/tokens");
-const { assignUserWithEquipment } = require("./services/users");
+const { assignUserWithEquipment, getUserEquips } = require("./services/users");
 const app = express();
 const port = 3030;
 const bcrypt = require("bcrypt");
@@ -47,6 +47,24 @@ app.get("/api/equips", async (req, res) => {
     const equips = await getEquips();
     return res.status(200).json(equips);
 });
+
+
+
+//get user's equips
+app.get("/api/user/equips", async (req, res) => {
+    const token = req.headers.authorization
+
+    if (!(await verifyToken(token))) {
+        return res.status(403).json({ message: "Invalid token." });
+    }
+    const equips = await getUserEquips();
+    if(equips === false){
+        return res.status(403).json({ message: "User Not Found" });
+    }
+    return res.status(200).json(equips);
+});
+
+
 
 
 
