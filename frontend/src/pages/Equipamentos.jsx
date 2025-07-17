@@ -112,7 +112,7 @@ export default function EquipmentUI() {
               placeholder="Buscar..."
               className="border px-2 py-1 text-sm bg-gray-100 focus:outline-none rounded"
             />
-            <button className="bg-gray-200 px-3 flex justify-center py-1 rounded">
+            <button className="bg-gray-200 px-3 flex justify-around font-2xl py-1 rounded">
               <FaSearch />
             </button>
             <button
@@ -126,11 +126,11 @@ export default function EquipmentUI() {
 
         {showFilter && (
           <div className="bg-white border border-gray-300 rounded-lg p-4 m-4 shadow">
-            <label className="block mb-2 font-medium">Filtrar por tipo:</label>
+            <label className="block mb-2 font-xl">Filtrar por tipo:</label>
             <select
               value={filter}
               onChange={e => setFilter(e.target.value)}
-              className="border px-3 py-2 rounded w-full bg-gray-100"
+              className="border px-3 py-2 font-xl rounded w-full bg-gray-100"
             >
               <option>Todos</option>
               <option>Computador</option>
@@ -140,7 +140,7 @@ export default function EquipmentUI() {
           </div>
         )}
 
-        <div className="p-8 space-y-4 bg-gray-100 h-full overflow-y-auto rounded-t-lg">
+        <div className="p-8 space-y-4 bg-gray-100 h-full font-xl overflow-y-auto rounded-t-lg">
           {filteredData.map((eq, index) => (
             <AccordionItem key={index} title={eq.name} items={eq.items} />
           ))}
