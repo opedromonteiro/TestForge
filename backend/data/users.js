@@ -22,15 +22,34 @@ async function findUserById(userId) {
     return result
 }
 
-async function updateUserWithEquipment(userId, equips) {
-    const col = await GetCollection(collName);
-    const newId = new ObjectId(String(userId));
-    const result = await col.updateOne(
-        { _id: newId },
-        { $push: { equips: equips } }
+async function updateUserWithEquipment(userId, equipId) {
+    const usersCol = await GetCollection(collName);      // "users" collection
+    const equipsCol = await GetCollection("equips");     // "equips" collection
+
+    const newUserId = new ObjectId(String(userId));
+    const newEquipId = new ObjectId(String(equipId));
+
+    const userUpdateResult = await usersCol.updateOne(
+        { _id: newUserId },
+        { $push: { equips: newEquipId } }
     );
-    return result.modifiedCount > 0;
+
+    if (userUpdateResult.modifiedCount === 0) {
+        throw new Error("Failed to add equipment to user");
+    }
+
+    const equipUpdateResult = await equipsCol.updateOne(
+        { _id: newEquipId },
+        { $set: { status: "ocupado" } }
+    );
+
+    if (equipUpdateResult.modifiedCount === 0) {
+        throw new Error("Failed to update equipment status");
+    }
+
+    return true;
 }
+
 async function removeUserEquipment(userId, equipId) {
     const col = await GetCollection(collName);
     const newUserId = new ObjectId(String(userId));
