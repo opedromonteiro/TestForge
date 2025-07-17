@@ -7,8 +7,9 @@ module.exports = {
   theme: {
     extend: {
       width: {
-        'initial': '100px',
+        'login': '800px',
         'hover': '1000px',
+        'bar': '60px',
       },
       colors: {
         'bggray': '#313131',

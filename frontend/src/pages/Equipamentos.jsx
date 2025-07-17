@@ -99,12 +99,9 @@ export default function EquipmentUI() {
     : equipmentData.filter(eq => eq.name.toLowerCase() === filter.toLowerCase());
 
   return (
-    <div className="flex h-screen bg-gray-200 text-black">
-      {/* Sidebar */}
+    <div className="flex h-screen bg-gray-200 text-black"> 
       <NavBar></NavBar>
-      {/* Main content */}
-      <div className="flex-1 flex flex-col">
-        {/* Top bar */}
+      <div className="flex-1 flex flex-col ml-16">
         <div className="bg-gray-400 p-4 flex items-center justify- border-b border-gray-800 m-4 rounded-b-lg h-2/6">
           <div className="flex items-center gap-2 h-full">
             <img src="logo512.png" alt="Logo" className="h-full w-auto object-contain" />
@@ -127,7 +124,6 @@ export default function EquipmentUI() {
           </div>
         </div>
 
-        {/* Filter dropdown */}
         {showFilter && (
           <div className="bg-white border border-gray-300 rounded-lg p-4 m-4 shadow">
             <label className="block mb-2 font-medium">Filtrar por tipo:</label>
@@ -144,7 +140,6 @@ export default function EquipmentUI() {
           </div>
         )}
 
-        {/* Accordion Section */}
         <div className="p-8 space-y-4 bg-gray-100 h-full overflow-y-auto rounded-t-lg">
           {filteredData.map((eq, index) => (
             <AccordionItem key={index} title={eq.name} items={eq.items} />

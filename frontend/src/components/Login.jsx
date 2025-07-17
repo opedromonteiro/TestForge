@@ -19,8 +19,8 @@ export default function BasicLogin() {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen">
-      <div className="bg-loggray p-8 rounded-lg shadow-md w-80">
+    <div className="flex justify-center items-center m-60">
+      <div className="p-8 w-80">
         <h1 className="text-xl font-bold mb-6 text-center">Login</h1>
         {error && (
           <div className="mb-4 p-2 bg-red-100 text-red-700 text-sm rounded">
