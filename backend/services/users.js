@@ -3,7 +3,7 @@ const { findUserById, updateUserWithEquipment } = require("../data/users");
 const { addLogsEntry } = require("../data/reqLog");
 
 
-async function updateUserWithEquipment(equips, token) {
+async function assignUserWithEquipment(equips, token) {
     const tokenObj = await findToken(token);
     if (!tokenObj || !tokenObj.uid) return false;
 
@@ -16,4 +16,4 @@ async function updateUserWithEquipment(equips, token) {
     return result;
 }
 
-module.exports = { updateUserWithEquipment };
+module.exports = { assignUserWithEquipment, removeUserEquipment  };

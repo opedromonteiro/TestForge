@@ -1,4 +1,9 @@
+const path = require("path");
+require("dotenv").config({ path: path.join(__dirname, ".env") });
+
+
 const { MongoClient } = require("mongodb");
+
 
 const url = process.env.MONGOURL;
 const defaultDbName = process.env.DB_NAME;
