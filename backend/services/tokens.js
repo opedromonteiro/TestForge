@@ -7,7 +7,15 @@ async function createToken(user){
     return null
 }
 
-async function verifyToken(id) {
+async function getToken(id){
+    const res = await findToken(id)
+    if (res === undefined || res == null) {
+        return false
+    }
+    return res
+}
+
+async function  verifyToken(id) {
     const res = await findToken(id)
     if (res === undefined || res == null) {
         return false
@@ -19,4 +27,4 @@ async function removeToken(id) {
     await deleteToken(id)
 }
 
-module.exports = {createToken, verifyToken, removeToken}
+module.exports = {createToken, verifyToken, removeToken, getToken}

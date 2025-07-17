@@ -38,8 +38,8 @@ async function getUser(userName) {
     return await findUser(userName)
 }
 
-async function getUserEquips(username) {
-    const user =  await findUser(username)
+async function getUserEquips(id) {
+    const user =  await findUserById(id)
     const userEquips = []
     if(!user) {
         return false

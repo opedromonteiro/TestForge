@@ -5,7 +5,7 @@ const { assignUserWithEquipment, getUserEquips } = require("./services/users");
 const app = express();
 const port = 3030;
 const bcrypt = require("bcrypt");
-const { removeToken } = require("./services/tokens");
+const { removeToken, getToken } = require("./services/tokens");
 const { getEquips, getEquipById, getEquipFilters } = require("./services/equips");
 const { getUser } = require("./services/users");
 const { createToken } = require("./services/tokens");
@@ -51,13 +51,14 @@ app.get("/api/equips", async (req, res) => {
 
 
 //get user's equips
-app.get("/api/user/equips", async (req, res) => {
+app.get("/api/users/equips", async (req, res) => {
     const token = req.headers.authorization
 
     if (!(await verifyToken(token))) {
         return res.status(403).json({ message: "Invalid token." });
     }
-    const equips = await getUserEquips();
+    const user = await getToken(token)
+    const equips = await getUserEquips(user.username);
     if(equips === false){
         return res.status(403).json({ message: "User Not Found" });
     }
