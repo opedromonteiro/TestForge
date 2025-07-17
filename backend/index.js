@@ -67,9 +67,9 @@ app.get("/api/equips/filters", async (req, res) => {
     }
     // Grab filters from query string
     const filters = {
-        status: req.query.status, // e.g. ?status=available
-        OS: req.query.OS,         // e.g. ?OS=Windows
-        tipo: req.query.tipo      // e.g. ?tipo=laptop
+        status: req.query.status,
+        OS: req.query.OS,
+        tipo: req.query.tipo
     };
 
     const filteredEquips = await getEquipFilters(filters);
@@ -109,29 +109,22 @@ app.patch("/api/users/", async (req, res) => { //add equips
         return res.status(500).json({ message: "Erro ao atualizar utilizador." });
     }
 });
-// remove equipment from user
-app.post("/api/users/return/:equip_id", async (req, res) => {
-    const token = req.headers.authorization;
 
-    if (!token || !(await verifyToken(token))) {
-        return res.status(403).json({ message: `Token not found` });
+// remove equipment from user
+app.post("/api/equips/:equip_id/return", async (req, res) => {
+    const token = req.headers.authorization;
+    const decoded = verifyToken(token);
+
+    if (!decoded) {
+        return res.status(401).json({ message: "Invalid token." });
     }
 
     try {
-        const userId = decoded.user_id;
-
-        const userUpdated = await removeUserEquipment(userId, req.params.equip_id);
-        if (!userUpdated) {
-            return res.status(404).json({ message: "User or equipment not found." });
-        }
-
-        await updateEquipStatus(req.params.equip_id, "available");
-        await addLogsEntry(userId, req.params.equip_id, new Date());
-
+        const success = await removeUserEquipment(decoded.user_id, req.params.equip_id);
         return res.status(200).json({ message: "Equipment returned successfully." });
     } catch (err) {
         console.error("Return error:", err);
-        return res.status(500).json({ message: "Server error" });
+        return res.status(400).json({ message: err.message });
     }
 });
 
