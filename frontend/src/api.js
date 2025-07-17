@@ -10,7 +10,7 @@ const apiClient = axios.create({
 });
 
 // Set the token dynamically for authenticated requests
-export const setAuthToken = (token) => {
+export const setAuthToken = async (token) => {
     if (token) {
         apiClient.defaults.headers.common["Authorization"] = token;
     } else {

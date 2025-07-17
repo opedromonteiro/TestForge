@@ -9,9 +9,11 @@ const { removeToken, getToken } = require("./services/tokens");
 const { getEquips, getEquipById, getEquipFilters } = require("./services/equips");
 const { getUser } = require("./services/users");
 const { createToken } = require("./services/tokens");
+const cors = require("cors")
 
 
 app.use(express.json());
+app.use(cors())
 
 app.post("/api/auth/login", async (req, res) => {
     const { username, password } = req.body;

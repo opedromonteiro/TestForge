@@ -17,7 +17,7 @@ export default function App() {
           <Route path="equipamentos" element={<EquipamentosPage />} />
           <Route path="perfil" element={<Perfil />} />
           <Route path="software" element={<SoftwarePage />} />
-          <Route path="dashboard" element={<DashboardPage />} />
+          {/* <Route path="dashboard" element={<DashboardPage />} /> */}
         <Route path="*" element={<div>Página não encontrada</div>} />
       </Routes>
     </Router>
