@@ -106,8 +106,8 @@ export default function EquipmentUI() {
       <div className="flex-1 flex flex-col">
         {/* Top bar */}
         <div className="bg-gray-400 p-4 flex items-center justify- border-b border-gray-800 m-4 rounded-b-lg h-2/6">
-          <div className="flex items-center gap-2">
-            <img src="logo512.png"alt="Logo" className="h-1/2" />
+          <div className="flex items-center gap-2 h-full">
+            <img src="logo512.png" alt="Logo" className="h-full w-auto object-contain" />
           </div>
           <div className="flex gap-2 items-center w-2xl">
             <input
