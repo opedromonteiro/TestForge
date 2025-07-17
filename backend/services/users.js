@@ -16,4 +16,4 @@ async function assignUserWithEquipment(equips, token) {
     return result;
 }
 
-module.exports = { assignUserWithEquipment, removeUserEquipment  };
+module.exports = { assignUserWithEquipment};
