@@ -19,7 +19,7 @@ const NavBar = () => {
   const navigate = useNavigate();
   
   return (
-    <div className="w-16 bg-gray-800 flex flex-col h-screen fixed left-0 top-0 py-4">
+    <div className="w-16 bg-loggray flex flex-col h-screen fixed left-0 top-0 py-4">
       
       <div className="flex-1 flex flex-col items-center space-y-4">
         <SidebarIcon 
@@ -30,17 +30,17 @@ const NavBar = () => {
         <SidebarIcon 
           icon={<FaLaptop size={20} className="text-white" />} 
           label="Equipamentos" 
-          onClick={() => navigate("/pages/Equipamentos")} 
+          onClick={() => navigate("/Equipamentos")} 
         />
         <SidebarIcon 
           icon={<FaCog size={20} className="text-white" />} 
           label="Software" 
-          onClick={() => navigate("/pages/Software")} 
+          onClick={() => navigate("/Software")} 
         />
         <SidebarIcon 
           icon={<FaChartBar size={20} className="text-white" />} 
           label="Dashboard" 
-          onClick={() => navigate("/pages/Dashboard")} 
+          onClick={() => navigate("/Dashboard")} 
         />
       </div>
 
@@ -49,7 +49,7 @@ const NavBar = () => {
         <SidebarIcon 
           icon={<FaUser size={20} className="text-white" />} 
           label="Perfil" 
-          onClick={() => navigate("/pages/Perfil")} 
+          onClick={() => navigate("/Perfil")} 
         />
       </div>
     </div>

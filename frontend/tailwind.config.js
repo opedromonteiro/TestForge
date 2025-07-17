@@ -15,7 +15,7 @@ module.exports = {
         'bggray': '#313131',
         'forange': '#F45722',
         'horange': '#F88E20',
-        'loggray': '#B4B4B4',
+        'loggray': '#828080',
       },
     },
   },
