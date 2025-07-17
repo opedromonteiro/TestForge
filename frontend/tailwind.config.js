@@ -10,6 +10,7 @@ module.exports = {
         'login': '800px',
         'hover': '1000px',
         'bar': '60px',
+        'icon': '52px',
       },
       colors: {
         'bggray': '#313131',

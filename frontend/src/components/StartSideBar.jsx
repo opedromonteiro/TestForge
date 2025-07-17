@@ -9,7 +9,7 @@ const StartSidebar = () => {
   return (
     <div className={`fixed left-0 top-0 h-screen bg-loggray transition-all duration-300 ease-in-out ${isExpanded ? "w-login" : "w-16"}`}>
       <div className="flex flex-col h-full py-4">
-        <div className="p-4 hover:bg-forange transition-colors cursor-pointer flex justify-center" onClick={() => setIsExpanded(!isExpanded)}>
+        <div className="p-4 mx-2 hover:bg-orange-500 w-icon transition-colors rounded-lg cursor-pointer relative group" onClick={() => setIsExpanded(!isExpanded)}>
           {isExpanded ? (
             <FaTimes className="text-white text-xl" />
           ) : (

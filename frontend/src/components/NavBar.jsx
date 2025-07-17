@@ -3,7 +3,7 @@ import { FaUser, FaLaptop, FaCog, FaChartBar, FaHome } from "react-icons/fa";
 
 const SidebarIcon = ({ icon, label, onClick, isActive = false }) => (
   <div
-    className={`p-4 hover:bg-orange-500 transition-colors cursor-pointer relative group ${
+    className={`p-4 hover:bg-orange-500 transition-colors rounded-lg cursor-pointer relative group ${
       isActive ? "bg-orange-500" : ""
     }`}
     onClick={onClick}
@@ -19,9 +19,9 @@ const NavBar = () => {
   const navigate = useNavigate();
   
   return (
-    <div className="w-16 bg-loggray flex flex-col h-screen fixed left-0 top-0 py-4">
+    <div className="w-16 bg-loggray flex flex-col h-screen fixed left-0 top-0 py-4 rounded-r-lg">
       
-      <div className="flex-1 flex flex-col items-center space-y-4">
+      <div className="flex-1 flex  flex-col items-center space-y-4">
         <SidebarIcon 
           icon={<FaHome size={20} className="text-white" />} 
           label="Início" 
