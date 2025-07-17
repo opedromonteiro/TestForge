@@ -40,13 +40,14 @@ async function getUser(userName) {
 
 async function getUserEquips(id) {
     const user =  await findUserById(id)
+    console.log("DJKAHGSKJDHSAK: ",user)
     const userEquips = []
     if(!user) {
         return false
     }
     for(let i = 0 ; i < user.equips.length; i++){
         const res = await findEquipById(user.equips[i])
-        userEquips(res)
+        userEquips.push(res)
     }
     return userEquips
 }

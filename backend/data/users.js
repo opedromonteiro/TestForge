@@ -24,10 +24,14 @@ async function findUser(userName) {
 }
 
 async function findUserById(userId) {
-    const newId = new ObjectId(String(userId))
+    // const newId = new ObjectId(String(userId))
     const col = await GetCollection(collName)
-    const result = await col.findOne({_id : newId})
-    return result
+    const result = await col.find().toArray()
+    console.log(userId)
+    console.log(result)
+    const sim = result.find((e) => e._id.toString() === userId.toString())
+    console.log(sim)
+    return sim
 }
 
 async function updateUserWithEquipment(userId, equipId) {

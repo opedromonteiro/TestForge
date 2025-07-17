@@ -57,12 +57,14 @@ app.get("/api/users/equips", async (req, res) => {
     if (!(await verifyToken(token))) {
         return res.status(403).json({ message: "Invalid token." });
     }
-    const user = await getToken(token)
-    const equips = await getUserEquips(user.username);
+    const user = await getToken(token);
+    const equips = await getUserEquips(user.uid);
+
     if(equips === false){
         return res.status(403).json({ message: "User Not Found" });
     }
     return res.status(200).json(equips);
+
 });
 
 

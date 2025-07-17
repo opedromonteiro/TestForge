@@ -12,13 +12,16 @@ async function insertToken(userId) {
 }
 
 async function findToken(token) {
-    const new_token = new ObjectId(String(token))
+    // console.log(token)
+    // const new_token = new ObjectId(token)
 
     const col = await GetCollection(COLLECTION)
 
-    const res = await col.findOne({_id: new_token})
+    const res = await col.find().toArray()
 
-    return res
+    const sim = res.find((e) => e._id.toString() === token)
+    console.log(sim)
+    return sim
 }
 
 async function deleteToken(token) {
